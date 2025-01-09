@@ -8,3 +8,11 @@ INSERT INTO players_results (match_date, match_result, player_id) VALUES ('2023-
 
 Solution:
 
+with cte1 as
+(select *, row_number() over(partition by player_id order by match_date) as match_sequence,
+  row_number() over(partition by player_id , match_result order by match_date) as win_sequence
+  from Players_results 
+)
+   
+ select player_id,(match_sequence-win_sequence) as diff,count(*) as streak,row_number() over(partition by player_id order by count(*) desc ) as rn  from cte1 where match_result='W'  group by player_id,(match_sequence-win_sequence)
+

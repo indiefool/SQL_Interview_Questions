@@ -13,3 +13,18 @@ CREATE TABLE user_contents (content_id BIGINT, content_text VARCHAR(255), conten
 
 INSERT INTO user_contents (content_id, content_text, content_type, customer_id) VALUES (201, 'Welcome Post', 'Blog', 1), (202, 'Product Review', 'Review', 2), (203, 'Event Photos', 'Photo', 3),
 (204, 'Tutorial Video', 'Video', 3), (205, 'Survey Response', 'Survey', 4);
+
+Solution:
+
+with cte as
+
+(select customer_id, count(*) as total_cust_int from Customer_interactions group by customer_id),
+  
+ cte1 as
+ (
+ select customer_id,count(*) as tot_contents from User_contents group by customer_id
+ )
+ 
+select cte.customer_id,cte.total_cust_int,coalesce(cte1.tot_contents,0)  from cte left join cte1 on cte.customer_id=cte1.customer_id
+union
+select cte1.customer_id,coalesce(cte.total_cust_int,0),cte1.tot_contents from cte1 left join cte on cte1.customer_id=cte.customer_id

@@ -36,13 +36,13 @@ Solution:
 #Output
 
 passenger_name  	avg_fare
-Alice Walker	    12.12
+Alice Walker	      12.12
 Anna Davis        	0
-David Thomas	    9.09
-Emma Moore	       0.5
-John Smith	      12.12
-Mary Johnson	    9.09
-Robert Wilson	   0
-William Taylor	  0.5
+David Thomas	      9.09
+Emma Moore	        0.5
+John Smith	        12.12
+Mary Johnson	      9.09
+Robert Wilson	     0
+William Taylor	    0.5
 
 

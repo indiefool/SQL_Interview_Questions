@@ -19,3 +19,13 @@ select *, percent_rank() over(partition by state order by fraud_score) as per_rn
 )
 
 select policy_number,state,claim_cost,fraud_score from cte where per_rnk>=0.95
+
+solution 2:
+
+with cte as
+(
+select *, cume_dist() over(partition by state order by fraud_score) as per_rnk from claims
+)
+
+select policy_number,state,claim_cost,fraud_score,per_rnk from cte where per_rnk>=0.95 ;
+

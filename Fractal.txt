@@ -25,3 +25,10 @@ INSERT INTO relationship (c_id, p_id) VALUES
 (2, 3),
 (4, 1),
 (4, 5);
+
+Solution:
+
+select  child.g_name as child ,max(case when parent.g_gender='M'  then parent.g_name end) as Father,
+max(case when parent.g_gender='F'  then parent.g_name end) as Mother from 
+relationship a left join gods child on a.c_id=child.g_id left join gods parent on a.p_id=parent.g_id group by child.g_name
+

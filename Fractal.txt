@@ -1,0 +1,27 @@
+The families of ancient greek gods were messy and you are given a database GreekGods that contains information about their families. 
+Determine the mother and father of the various Greek Gods ordered alphabetically by the child’s name
+
+
+CREATE TABLE gods (
+    g_id INT PRIMARY KEY,
+    g_name VARCHAR(50),
+    g_gender CHAR(1)
+);
+
+CREATE TABLE relationship (
+    c_id INT,
+    p_id INT
+);
+
+INSERT INTO gods (g_id, g_name, g_gender) VALUES
+(1, 'Zeus', 'M'),
+(2, 'Ares', 'M'),
+(3, 'Hera', 'F'),
+(4, 'Persephone', 'F'),
+(5, 'Demeter', 'F');
+
+INSERT INTO relationship (c_id, p_id) VALUES
+(2, 1),
+(2, 3),
+(4, 1),
+(4, 5);

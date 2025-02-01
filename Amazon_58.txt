@@ -25,3 +25,28 @@ select user_id,product_id,created_at from cte where rn=1
 )
 
 select count(distinct a.user_id) as successful_users from in_app_purchases a join cte2 b on a.user_id=b.user_id and a.product_id!=b.product_id and a.created_at>=b.created_at
+
+
+Solution 2:
+
+WITH cte AS (
+    SELECT *,
+           DENSE_RANK() OVER (PARTITION BY user_id ORDER BY created_at) AS rn
+    FROM in_app_purchases
+),
+cte2 AS (
+    SELECT user_id,
+           GROUP_CONCAT(product_id ORDER BY product_id) AS product_ids,
+           MIN(created_at) AS first_purchase_date
+    FROM cte
+    WHERE rn = 1
+    GROUP BY user_id
+)
+
+SELECT COUNT(DISTINCT a.user_id) AS successful_users
+FROM in_app_purchases a
+JOIN cte2 b 
+    ON a.user_id = b.user_id 
+    AND a.product_id not in (b.product_ids) 
+    AND a.created_at > b.first_purchase_date;
+

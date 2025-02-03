@@ -9,3 +9,13 @@ VALUES (1, 'SG1234', 'Delhi', 'Hyderabad'), (1, 'SG3476', 'Kochi', 'Mangalore'),
 
 Solution:
 
+
+with cte1 as(
+select a.cust_id,a.origin from flights a left join flights b on a.cust_id=b.cust_id and  a.origin=b.destination  where b.destination is null
+),
+
+cte2 as(
+select  a.cust_id,a.destination from flights a left join flights b on a.cust_id=b.cust_id and a.destination=b.origin where b.origin is null
+)
+
+select a.cust_id,a.origin, b.destination  from cte1 a inner join cte2 b on a.cust_id=b.cust_id

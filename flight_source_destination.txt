@@ -19,4 +19,5 @@ INSERT INTO flight_info (id, source, destination) VALUES
 Solution:
 
 
+select a.source,b.destination from flight_info a left join flight_info b on a.id=b.id-1 where a.destination=b.source;
 

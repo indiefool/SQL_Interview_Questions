@@ -1,0 +1,22 @@
+Write a sql program to find each flight source and destination from the given data set
+
+DROP TABLE flight_info;
+CREATE TABLE flight_info (
+    id INT,
+    source VARCHAR(50),
+    destination VARCHAR(50)
+);
+
+-- Step 2: Insert data into the flight_info table
+INSERT INTO flight_info (id, source, destination) VALUES
+(1, 'Delhi', 'Kolkata'),
+(2, 'Kolkata', 'Banglore'),
+(3, 'Mumbai', 'Pune'),
+(4, 'Pune', 'Goa'),
+(5, 'Kolkata', 'Delhi'),
+(6, 'Delhi', 'Srinagar');
+
+Solution:
+
+
+

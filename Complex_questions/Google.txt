@@ -43,3 +43,20 @@ INSERT INTO Transactions (transaction_id, customer_id, amount, tran_Date) VALUES
 (17, 203, 200, '2025-11-01 11:00:01'),
 (18, 201, 200, '2025-11-01 11:00:01');
 
+Solution:
+
+with cte as(
+select transaction_id,customer_id as seller_id,amount,tran_date, lead(customer_id) over(order by transaction_id) as buyer_id 
+from Transactions 
+),
+
+combinations as(
+select seller_id, buyer_id ,count(*) as total_transactions from cte where transaction_id %2=1 
+group by seller_id,buyer_id 
+),
+fraud_cust as(
+select distinct  a.seller_id as fraud_id from combinations a join combinations b on a.seller_id=b.buyer_id
+)
+
+select * from combinations  where seller_id not in(select fraud_id from fraud_cust) and buyer_id not 
+in(select fraud_id from fraud_cust) ;

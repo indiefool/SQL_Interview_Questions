@@ -1,0 +1,35 @@
+
+CREATE TABLE Sales_products (
+ product_id INT,
+ purchase_date DATE
+);
+
+
+INSERT INTO Sales_products (product_id, purchase_date) VALUES
+ (1, '2023-07-01'), 
+ (2, '2023-07-02'), 
+ (3, '2023-07-03'), 
+ (1, '2023-07-08'), 
+ (4, '2023-07-09'), 
+ (5, '2023-07-10'), 
+ (4, '2023-07-15'), 
+ (4, '2023-07-16'),
+ (5, '2025-12-30'),
+ (5, '2025-12-31');
+
+ Solution:
+
+ select *, dayname(purchase_date) as day from Sales_products  where dayname(purchase_date) in('Saturday','Sunday')
+
+ Output:
+
++------------+---------------+----------+
+| product_id | purchase_date | day      |
++------------+---------------+----------+
+|          1 | 2023-07-01    | Saturday |
+|          2 | 2023-07-02    | Sunday   |
+|          1 | 2023-07-08    | Saturday |
+|          4 | 2023-07-09    | Sunday   |
+|          4 | 2023-07-15    | Saturday |
+|          4 | 2023-07-16    | Sunday   |
++------------+---------------+----------+

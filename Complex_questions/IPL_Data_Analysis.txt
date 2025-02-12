@@ -17,4 +17,33 @@ INSERT INTO cricket_match VALUES(1,1,1,0.1,'0','Mohammed Shami','Devon Conway',0
 
 SOLUTION:
 ---------
+with cte as(
+select batter as player ,matchid as batting_id,null as bowling_id from  cricket_match 
+union
+select bowler as player ,null as batting_id,matchid as bowling_id from cricket_match
+)
+
+select player , count(distinct coalesce(batting_id,bowling_id))  as total_matches_played ,
+count(batting_id) as batting_matches,count(bowling_id) as bowling_matches 
+from cte group by player
+
+OUTPUT
+--------
+-----------------+----------------------+-----------------+-----------------+
+| player          | total_matches_played | batting_matches | bowling_matches |
++-----------------+----------------------+-----------------+-----------------+
+| Alzarri Joseph  |                    2 |               2 |               1 |
+| Ambati Rayudu   |                    2 |               2 |               0 |
+| Ben S           |                    1 |               1 |               1 |
+| Brett Lee       |                    2 |               0 |               2 |
+| Devon Conway    |                    1 |               1 |               1 |
+| Hardik Pandya   |                    3 |               1 |               2 |
+| Josh Little     |                    3 |               1 |               2 |
+| Moeen Ali       |                    2 |               1 |               1 |
+| Mohammed Shami  |                    2 |               2 |               1 |
+| Rashid Khan     |                    2 |               2 |               1 |
+| Ruturaj Gaikwad |                    4 |               4 |               4 |
+| Shivam Dube     |                    1 |               1 |               1 |
+| Yash Dayal      |                    1 |               0 |               1 |
++-----------------+----------------------+-----------------+-----------------+
 

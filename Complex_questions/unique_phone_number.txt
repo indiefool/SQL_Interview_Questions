@@ -1,0 +1,78 @@
+A column contains a list of phone numbers as keyed in by users.you are supposed to find only those numbers  
+which don't have any repeating numbers i.e all numbers of a phone number must be unique 
+
+Schema and DataSet:
+
+create table phone_numbers (num varchar(20));
+insert into phone_numbers values
+('1234567780'),
+('2234578996'),
+('+1-12244567780'),
+('+32-2233567889'),
+('+2-23456987312'),
+('+91-9087654123'),
+('+23-9085761324'),
+('+11-8091013345');
+---------------------------------------------------------------------------------------------
+Solution 1:
+---------------------------------------------------------------------------------------------
+
+with recursive cte as (
+select 
+       substring_index(num,"-",-1) as num,
+      
+       length(substring_index(num,"-",-1)) as cnt
+ from phone_numbers
+ union all
+  select num,cnt-1
+  from cte 
+  where cnt >1),
+
+cte2 as(
+  select num,
+          substring(num,cnt,1) as numbers 
+from cte 
+
+)
+
+select  num  ,count(distinct numbers), length(num) from cte2 group by num having count(distinct numbers)=length(num);
+
+Output:
+
++------------+-------------------------+-------------+
+| num        | count(distinct numbers) | length(num) |
++------------+-------------------------+-------------+
+| 9085761324 |                      10 |          10 |
+| 9087654123 |                      10 |          10 |
++------------+-------------------------+-------------+
+
+----------------------------------------------------------------------------
+Solution 2:
+-----------------------------------------------------------------------------
+
+with recursive cte as (
+select 
+       substring_index(num,"-",-1) as num,
+      
+       length(substring_index(num,"-",-1)) as cnt
+ from phone_numbers
+ union all
+  select num,cnt-1
+  from cte 
+  where cnt >1),
+
+cte2 as(
+  select num,
+          substring(num,cnt,1) as numbers 
+from cte 
+
+),
+
+cte3 as (
+  select num,numbers,count(numbers) over(partition by num,numbers) as cnt
+  from cte2)
+
+select num
+from cte3
+group by num
+having max(cnt)=1

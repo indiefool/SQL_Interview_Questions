@@ -1,0 +1,49 @@
+**SQL – Assignment**  
+
+1. We have a table which has 5 columns.  
+   a. User_id, poll_id, poll_option_id, amount, created_dt  
+   b. Users invest money on these different poll options - these entries are there in the table  
+   c. One of the options is the outcome of the event.  
+      **Event:** How many matches will the Indian cricket team win in 2022?  
+      i. Less than 50  
+      ii. 50-60  
+      iii. 61-65  
+      iv. Greater than 65  
+
+   - India wins 63 matches in the end.  
+   - **Option C is the winner**  
+   - Money invested in options A, B, and D should be proportionately distributed amongst users who invested money in option C.  
+   - **Example:**  
+     - If the total money invested in options A, B, and D is Rs. 1500 and there are 3 users who invested 500 in option C {250, 200, 50},  
+     - These users would receive (750, 600, 150) respectively - sum is 1500.  
+
+   d. Write down a query for the above settlement process.
+
+---
+
+### **Input Table:**
+
+| User_ID | Poll_Id | Poll_Option_Id | Amount | Created_dt  |
+|---------|--------|---------------|--------|-------------|
+| id1     | p1     | A             | 200    | 2021-12-01  |
+| id2     | p1     | C             | 250    | 2021-12-01  |
+| id3     | p1     | A             | 200    | 2021-12-01  |
+| id4     | p1     | B             | 500    | 2021-12-01  |
+| id5     | p1     | C             | 50     | 2021-12-01  |
+| id6     | p1     | D             | 500    | 2021-12-01  |
+| id7     | p1     | C             | 200    | 2021-12-01  |
+| id8     | p1     | A             | 100    | 2021-12-01  |
+
+---
+
+### **Output Table: Option C Wins**
+
+| User ID | Returns |
+|---------|---------|
+| id2     | 1000    |
+| id5     | 200     |
+| id7     | 800     |
+
+------------------------------------------------------------------------
+Solution:
+------------------------------------------------------------------------

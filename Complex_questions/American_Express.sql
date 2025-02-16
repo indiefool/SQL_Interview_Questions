@@ -42,3 +42,26 @@ INSERT INTO likes VALUES
 
 
 Solution:
+
+
+with user_likes as
+(
+select  distinct a.user_id,group_concat(distinct b.page_id) as user_liked_pages from friends a join likes b on a.user_id=b.user_id group by a.user_id
+),
+user_friend_likes as
+(
+select  distinct  a.user_id ,b.page_id from friends a join likes b on a.friend_id=b.user_id 
+)
+
+select a.user_id,a.page_id  from user_friend_likes a left join user_likes b on a.user_id=b.user_id 
+
+and FIND_IN_SET(a.page_id, b.user_liked_pages) = 0 where b.user_liked_pages is  not null;
+
+Output :
+
+user_id    page_id
+2	        C
+2	        B
+3	        A
+4	        C
+4	        A

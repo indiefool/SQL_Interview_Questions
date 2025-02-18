@@ -46,3 +46,10 @@ select *,count(*) over (partition by grp) as cnt from cte1 )  as new where cnt >
 Solution 3:
 
 
+with cte3 as(
+select c1.seat_id as s1,c2.seat_id as s2 from cinema c1 join cinema c2 on c1.seat_id+1=c2.seat_id 
+where c1.free=1 and c2.free=1
+)
+
+select s1 from cte3 union select s2 from cte3;
+

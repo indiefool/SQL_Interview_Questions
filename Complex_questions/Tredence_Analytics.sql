@@ -33,3 +33,16 @@ select *, lead(free) over (order by seat_id) as next_seat ,lag(free) over (order
 )
 
 select seat_id from cte where free=1 and (next_seat=1 or prev_seat=1);
+
+Solution 2:
+
+with cte1 as(
+select *, row_number() over(order by seat_id) as rn,seat_id- row_number() over(order by seat_id) 
+ as grp from cinema where free=1
+)
+select seat_id from(
+select *,count(*) over (partition by grp) as cnt from cte1 )  as new where cnt >1 ;
+
+Solution 3:
+
+

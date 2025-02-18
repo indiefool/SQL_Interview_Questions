@@ -27,5 +27,9 @@ INSERT INTO cinema (seat_id, free) VALUES (18, 1);
 INSERT INTO cinema (seat_id, free) VALUES (19, 1);
 INSERT INTO cinema (seat_id, free) VALUES (20, 1);
 
-Solution:
+Solution 1: 
+with cte as(
+select *, lead(free) over (order by seat_id) as next_seat ,lag(free) over (order by seat_id) as prev_seat   from cinema 
+)
 
+select seat_id from cte where free=1 and (next_seat=1 or prev_seat=1);

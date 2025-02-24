@@ -28,6 +28,10 @@ Schema and DataSet:
 create table numbers (n int);
 insert into numbers values (1),(2),(3),(4),(5);
 
+------------------------------------------------------------------------
+Solution:
+------------------------------------------------------------------------
+
 # recursive cte approach
 
 with  recursive cte as(
@@ -39,8 +43,5 @@ select n from cte order by n;
 
 # cross join approach
 
-select n1.n from numbers n1 cross join numbers n2 on n1.n>=n2.n order by n1.n
-
-
-
+select n1.n from numbers n1 cross join numbers n2 on n1.n>=n2.n order by n1.n;
 

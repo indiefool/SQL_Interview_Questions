@@ -62,3 +62,12 @@ select region,house,cnt from cte1 where rn=1;
 --------------------------------------------------------------------------------------------------
 Solution 2:
 --------------------------------------------------------------------------------------------------
+
+with cte as(
+select b.region,k.house from battle b inner join king k on k.k_no=case when b.attacker_outcome=1 then b.attacker_king else b.defender_king end
+),
+cte1 as(
+select region,house ,count(*) as cnt, dense_rank() over(partition by region order by count(*) desc) as rn from cte
+ group by region,house)
+ 
+ select region,house,cnt from cte1 where rn=1;

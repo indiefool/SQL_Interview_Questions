@@ -43,6 +43,22 @@ INSERT INTO battle (battle_number, name, attacker_king, defender_king, attacker_
 (8, 'Battle of Riverrun', 1, 3, 0, 'The Riverlands');
 
 --------------------------------------------------------------------------------------------------
-Solution:
+Solution 1:
 --------------------------------------------------------------------------------------------------
+with cte as(
+select attacker_king as king, region  from battle where attacker_outcome=1
+union all
+select defender_king as king, region  from battle where attacker_outcome=0
+),
 
+cte1 as
+(
+select a.region,b.house,count(*) as cnt,dense_rank() over(partition by a.region order by count(*) desc) as rn
+ from cte a  inner join king b on a.king=b.k_no group by a.region,b.house
+)
+
+select region,house,cnt from cte1 where rn=1;
+
+--------------------------------------------------------------------------------------------------
+Solution 2:
+--------------------------------------------------------------------------------------------------

@@ -37,3 +37,16 @@ VALUES
 Solution:
 ----------------------------------------------------------------------------------
 
+
+with cte as(
+select *,lag(record_date,1,record_date) over(partition by supplier_id,product_id order by record_date) 
+as prev_date,datediff(record_date,lag(record_date,1,record_date) over(partition by supplier_id,product_id order by 
+record_date) ) as diff from stock where stock_quantity < 50
+),
+cte1 as(
+select *,case when diff<=1 then 0 else 1 end as group_flag,sum(case when diff<=1 then 0 else 1 end )
+over(partition by supplier_id,product_id order by record_date) group_id  from cte
+)
+select supplier_id,product_id,min(record_date) as first_date
+from cte1 group by supplier_id,product_id,group_id having count(*)>=2;
+

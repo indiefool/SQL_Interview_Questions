@@ -28,3 +28,21 @@ Solution 1
 select a.* from city_distance a left join city_distance b on a.source=b.destination and a.destination=b.source
 
 where b.distance is null or a.distance!=b.distance or a.source < a.destination
+
+
+------------------------------------------------------------------------------------------------
+Solution 2
+------------------------------------------------------------------------------------------------
+
+with cte as (
+select *, case when source < destination then source else destination end  as city1,
+
+case when source < destination then destination else source  end  as city2 from city_distance 
+)
+,
+cte1 as(
+select  *,count(*) over(partition by city1,city2,distance) as cnt from cte 
+)
+
+select  distance, source, destination from cte1 where cnt=1 or (source < destination);
+

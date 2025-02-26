@@ -46,3 +46,18 @@ select  *,count(*) over(partition by city1,city2,distance) as cnt from cte
 
 select  distance, source, destination from cte1 where cnt=1 or (source < destination);
 
+
+------------------------------------------------------------------------------------------------
+Solution 3
+------------------------------------------------------------------------------------------------
+
+with cte as(
+select *, row_number() over(order by (select null)) as rn  from city_distance
+)
+
+select  a.distance, a.source, a.destination from cte a left join cte b 
+on a.source=b.destination 
+and a.destination=b.source where b.distance is null or a.distance !=b.distance or a.rn < b.rn ;
+
+
+

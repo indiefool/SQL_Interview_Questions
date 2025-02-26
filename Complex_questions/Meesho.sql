@@ -45,8 +45,20 @@ INSERT INTO daily_cases (record_date, case_count) VALUES
 ('2021-12-27', 53434);
 
 ---------------------------------------------------------------
-Solution:
+Solution 1: Using Self-Join
 ---------------------------------------------------------------
+with cte as (
+select month(record_date) as record_month ,sum(case_count) as total_cases from 
+daily_cases  group by month(record_date)
+),
+cte1 as(
+select  a.record_month,a.total_cases,sum(b.total_cases) as prev_month_cases from 
+cte a left join cte b on 
+a.record_month > b.record_month group by a.record_month,a.total_cases
+)
 
+select record_month, total_cases as monthly_cases,
+round((total_cases*1.0/prev_month_cases)*100.0,1) as percentage
+from cte1 order by record_month;
 
 

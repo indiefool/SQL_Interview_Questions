@@ -22,5 +22,9 @@ INSERT INTO city_distance(distance, source, destination) VALUES ('60', 'Tirupati
 INSERT INTO city_distance(distance, source, destination) VALUES ('80', 'Tirumala', 'Tirupati');
 
 ------------------------------------------------------------------------------------------------
-Solution
+Solution 1
 ------------------------------------------------------------------------------------------------
+
+select a.* from city_distance a left join city_distance b on a.source=b.destination and a.destination=b.source
+
+where b.distance is null or a.distance!=b.distance or a.source < a.destination

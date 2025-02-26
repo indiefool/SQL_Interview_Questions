@@ -61,4 +61,24 @@ select record_month, total_cases as monthly_cases,
 round((total_cases*1.0/prev_month_cases)*100.0,1) as percentage
 from cte1 order by record_month;
 
+---------------------------------------------------------------
+Solution 2: Using Window Function
+---------------------------------------------------------------
+
+with cte as (
+select month(record_date) as record_month ,sum(case_count) as total_cases from 
+daily_cases  group by month(record_date)
+),
+
+cte1 as(
+select  record_month,total_cases,sum(total_cases) 
+over(order by record_month rows between unbounded preceding and 1 preceding) as 
+prev_month_cases from 
+cte
+)
+
+
+select record_month, total_cases as monthly_cases,
+round((total_cases*1.0/prev_month_cases)*100.0,1) as percentage
+from cte1 order by record_month;
 

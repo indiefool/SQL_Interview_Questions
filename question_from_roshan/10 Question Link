@@ -1,2 +1,34 @@
 
 https://thinketl.com/advanced-sql-interview-questions/
+
+
+Q1 - Ans
+
+CREATE TABLE TEAMS(
+COUNTRY VARCHAR(50)
+);INSERT INTO TEAMS VALUES('India');
+INSERT INTO TEAMS VALUES('Srilanka');
+INSERT INTO TEAMS VALUES('Bangladesh');
+INSERT INTO TEAMS VALUES('Pakistan');
+
+
+with base as
+(SELECT 
+  CASE 
+      WHEN COUNTRY = 'India' THEN 1
+      WHEN COUNTRY = 'Srilanka' THEN 2
+      WHEN COUNTRY = 'Bangladesh' THEN 3
+      WHEN COUNTRY = 'Pakistan' THEN 4
+  ELSE 0 END AS ID,
+  COUNTRY
+FROM TEAMS
+)
+select a.country , b.country from base a  join base b 
+on a.id < b.id
+order by a.id asc
+
+==============
+
+Q2 - Ans
+
+

@@ -29,6 +29,33 @@ order by a.id asc
 
 ==============
 
-Q2 - Ans
+Q5 - Ans
+
+CREATE TABLE STUDENTS(
+   ID int,
+   NAME varchar(10),
+   SUBJECT varchar(10),
+   SCORE int
+);
+
+INSERT INTO STUDENTS VALUES('1','Ram','Maths','50');
+INSERT INTO STUDENTS VALUES('1','Ram','Physics','65');
+INSERT INTO STUDENTS VALUES('1','Ram','Chemistry','70');
+INSERT INTO STUDENTS VALUES('2','Neena','Maths','88');
+INSERT INTO STUDENTS VALUES('2','Neena','Physics','90');
+INSERT INTO STUDENTS VALUES('2','Neena','Chemistry','65');
+INSERT INTO STUDENTS VALUES('3','John','Maths','100');
+INSERT INTO STUDENTS VALUES('3','John','Physics','45');
+INSERT INTO STUDENTS VALUES('3','John','Chemistry','52');
+
+select * from students;
+
+select id, name , 
+sum(case when subject = 'maths' then score else 0 end) as Maths,
+sum(case when subject = 'Physics' then score else 0 end) as Physics,
+sum(case when subject = 'Chemistry' then score else 0 end) as Chemistry
+from students
+group by id,name
+order by id
 
 
